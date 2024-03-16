@@ -92,15 +92,10 @@ function handleModalOpen(event) {
     if (event.currentTarget === event.target) return;
     const clickItemGallery = event.target.closest(".gallery-item");
     const itemImg = clickItemGallery.dataset.source;
-    const image = images.find(({original}) => original === itemImg);
+    const image = images.find(({ original }) => original === itemImg);
 
-    const instance = basicLightbox.create(`<div class="modal-window">
-    <img
-        src="${image.original}"
-        alt="${image.description}"
-    />
-    
-    </div>`);
+    const instance = basicLightbox.create(`<img src="${event.target.dataset.source}" alt="${event.target.alt}">`);
+
     instance.show();
 }
 
