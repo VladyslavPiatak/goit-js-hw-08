@@ -66,3 +66,41 @@ const images = [
 
 
 
+const gallery = document.querySelector("ul.gallery");
+gallery.insertAdjacentHTML("beforeend", createMarkupGallery(images));
+gallery.addEventListener("click", handleModalOpen);
+
+
+
+function createMarkupGallery(arr) {
+    return arr.map(({ preview, original, description }) => `
+    <li class="gallery-item">
+        <a class="gallery-link" href="${original}">
+            <img
+            class="gallery-image"
+            src="${preview}"
+            data-source="${original}"
+            alt="${description}"
+            />
+        </a>
+    </li>
+    `).join("")
+};
+
+function handleModalOpen(event) {
+    event.preventDefault();
+    if (event.currentTarget === event.target) return;
+    const clickItemGallery = event.target.closest(".gallery-item");
+    const itemImg = clickItemGallery.dataset.source;
+    const image = images.find(({original}) => original === itemImg);
+
+    const instance = basicLightbox.create(`<div class="modal-window">
+    <img
+        src="${image.original}"
+        alt="${image.description}"
+    />
+    
+    </div>`);
+    instance.show();
+}
+
